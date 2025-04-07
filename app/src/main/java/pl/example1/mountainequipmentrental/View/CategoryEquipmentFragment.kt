@@ -14,6 +14,8 @@ import pl.example1.mountainequipmentrental.R
 import pl.example1.mountainequipmentrental.ViewModel.MainViewModel
 import pl.example1.mountainequipmentrental.databinding.FragmentCategoryEquipmentBinding
 import pl.example1.mountainequipmentrental.View.CategoryEquipmentFragmentDirections
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class CategoryEquipmentFragment : Fragment() {
@@ -66,6 +68,17 @@ class CategoryEquipmentFragment : Fragment() {
             val endDate = selectedEndDate
 
             if (category != null && startDate != null && endDate != null) {
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val start = LocalDate.parse(startDate, formatter)
+                val end = LocalDate.parse(endDate, formatter)
+
+                // Sprawdzenie, czy data końcowa jest wcześniejsza
+                if (end.isBefore(start)) {
+                    Toast.makeText(requireContext(), "Data końcowa nie może być wcześniejsza niż początkowa!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+
                 val action = CategoryEquipmentFragmentDirections
                     .actionCategoryEquipmentFragmentToEquipmentList(
                         categoryName = category.Name,
