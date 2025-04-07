@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/categoryEquipmentFragment">
+    <fragment
+        android:id="@+id/categoryEquipmentFragment"
+        android:name="pl.example1.mountainequipmentrental.View.CategoryEquipmentFragment"
+        android:label="fragment_category_equipment"
+        tools:layout="@layout/fragment_category_equipment" >
+        <action
+            android:id="@+id/action_categoryEquipmentFragment_to_equipmentList"
+            app:destination="@id/equipmentList" />
+    </fragment>
+    <fragment
+        android:id="@+id/equipmentList"
+        android:name="pl.example1.mountainequipmentrental.View.EquipmentList"
+        tools:layout="@layout/fragment_equipment_list">
+
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
+        <argument
+            android:name="dateFrom"
+            app:argType="string" />
+        <argument
+            android:name="dateTo"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

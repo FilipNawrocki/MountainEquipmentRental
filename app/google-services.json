@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "732932070026",
+    "project_id": "mountainequipmentrental",
+    "storage_bucket": "mountainequipmentrental.firebasestorage.app",
+    "firebase_url": "https://mountainequipmentrental-default-rtdb.europe-west1.firebasedatabase.app/"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732932070026:android:a1771f5c44f66630ff6b73",
+        "android_client_info": {
+          "package_name": "pl.example1.mountainequipmentrental"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF3l4tLT3YE3YkK8hfpGzn3OGNpc_Sr9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
