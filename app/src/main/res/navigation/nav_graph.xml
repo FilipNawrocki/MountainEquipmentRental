@@ -11,7 +11,14 @@
         tools:layout="@layout/fragment_category_equipment" >
         <action
             android:id="@+id/action_categoryEquipmentFragment_to_equipmentList"
-            app:destination="@id/equipmentList" />
+            app:destination="@id/equipmentList"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_categoryEquipmentFragment_to_rentalAdminEditFragment"
+            app:destination="@id/rentalAdminEditFragment" />
+        <action
+            android:id="@+id/action_categoryEquipmentFragment_to_qrScanFragment"
+            app:destination="@id/qrScanFragment" />
     </fragment>
     <fragment
         android:id="@+id/equipmentList"
@@ -27,6 +34,77 @@
         <argument
             android:name="dateTo"
             app:argType="string" />
+        <action
+            android:id="@+id/action_equipmentList_to_fragmentRentSummation"
+            app:destination="@id/fragmentRentSummation"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentRentSummation"
+        android:name="pl.example1.mountainequipmentrental.View.FragmentRentSummation"
+        android:label="fragment_rent_summation"
+        tools:layout="@layout/fragment_rent_summation">
+        <action
+            android:id="@+id/action_fragmentRentSummation_to_categoryEquipmentFragment"
+            app:destination="@id/categoryEquipmentFragment"
+            app:popUpTo="@id/categoryEquipmentFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+
+        <argument
+        android:name="gearList"
+        app:argType="pl.example1.mountainequipmentrental.Model.GearModel[]"
+        android:defaultValue="@null"
+        app:nullable="true"
+         />
+        <argument
+            android:name="dateTo"
+            app:argType="string" />
+        <argument
+            android:name="dateFrom"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalAdminEditFragment"
+        android:name="pl.example1.mountainequipmentrental.View.AdminEdit.RentalAdminEditFragment"
+        android:label="fragment_rental_admin_edit"
+        tools:layout="@layout/fragment_rental_admin_edit" >
+        <action
+            android:id="@+id/action_rentalAdminEditFragment_to_editEquipmentAdminFragment"
+            app:destination="@id/editEquipmentAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editEquipmentAdminFragment"
+        android:name="pl.example1.mountainequipmentrental.View.AdminEdit.EditEquipmentAdminFragment"
+        android:label="fragment_edit_equipment_admin"
+        tools:layout="@layout/fragment_edit_equipment_admin" >
+        <action
+            android:id="@+id/action_editEquipmentAdminFragment_to_showGearListEditAdminFragment"
+            app:destination="@id/showGearListEditAdminFragment" />
+        <action
+            android:id="@+id/action_editEquipmentAdminFragment_to_addNewGearFragment"
+            app:destination="@id/addNewGearFragment" />
+        <action
+            android:id="@+id/action_editEquipmentAdminFragment_to_delete_GearFragment"
+            app:destination="@id/delete_GearFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showGearListEditAdminFragment"
+        android:name="pl.example1.mountainequipmentrental.View.AdminEdit.ShowGearListEditAdminFragment"
+        android:label="fragment_show_gear_list_edit_admin"
+        tools:layout="@layout/fragment_show_gear_list_edit_admin" />
+    <fragment
+        android:id="@+id/addNewGearFragment"
+        android:name="pl.example1.mountainequipmentrental.View.AdminEdit.AddNewGearFragment"
+        android:label="AddNewGearFragment" />
+    <fragment
+        android:id="@+id/delete_GearFragment"
+        android:name="pl.example1.mountainequipmentrental.View.AdminEdit.delete_GearFragment"
+        android:label="delete_GearFragment" />
+    <fragment
+        android:id="@+id/qrScanFragment"
+        android:name="pl.example1.mountainequipmentrental.View.QrScanFragment"
+        android:label="QrScanFragment" />
 
 </navigation>

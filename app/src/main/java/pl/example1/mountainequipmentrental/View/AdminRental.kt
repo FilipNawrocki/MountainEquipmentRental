@@ -12,23 +12,21 @@ class AdminRental : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_rental)
 
-        // Jeśli chcesz później reagować na kliknięcia przycisków:
-        // Można nawigować przez NavController np.:
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Przyciski
+        // Button
+
         findViewById<Button>(R.id.Wypożycz_Bnt).setOnClickListener {
             navController.navigate(R.id.categoryEquipmentFragment)
         }
 
         findViewById<Button>(R.id.Edytuj_Bnt).setOnClickListener {
-            // Tutaj dodaj inną akcję z nav_graph jeśli chcesz
+            navController.navigate(R.id.rentalAdminEditFragment)
         }
 
         findViewById<Button>(R.id.QR_Bnt).setOnClickListener {
-            // Tutaj też np. nawigacja do innego fragmentu
+            navController.navigate(R.id.qrScanFragment)
         }
     }
 }
