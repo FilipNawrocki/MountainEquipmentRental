@@ -105,6 +105,20 @@
     <fragment
         android:id="@+id/qrScanFragment"
         android:name="pl.example1.mountainequipmentrental.View.QrScanFragment"
-        android:label="QrScanFragment" />
+        android:label="QrScanFragment" >
+        <action
+            android:id="@+id/action_qrScanFragment_to_qrScanRentFragment"
+            app:destination="@id/qrScanRentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrScanRentFragment"
+        android:name="pl.example1.mountainequipmentrental.View.QrScanRentFragment"
+        android:label="fragment_qr_scan_rent"
+        tools:layout="@layout/fragment_qr_scan_rent">
+        <argument
+            android:name="gearId"
+            app:argType="string" />
+    </fragment>
+
 
 </navigation>

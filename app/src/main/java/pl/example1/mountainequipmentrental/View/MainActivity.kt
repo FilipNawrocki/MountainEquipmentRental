@@ -7,8 +7,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import pl.example1.mountainequipmentrental.R
+import pl.example1.mountainequipmentrental.ViewModel.CurrentUser
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
 
@@ -48,6 +51,9 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null && user.isEmailVerified) {
+                        CurrentUser.uid = user.uid
+                        CurrentUser.email = user.email
+
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, AdminMainView::class.java))
                         finish()

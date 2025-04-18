@@ -7,16 +7,20 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.FirebaseFirestore
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.CompoundBarcodeView
 import pl.example1.mountainequipmentrental.R
+import pl.example1.mountainequipmentrental.databinding.FragmentQrScanBinding
 
 class QrScanFragment : Fragment() {
 
     private lateinit var barcodeView: CompoundBarcodeView
-    private val db = FirebaseFirestore.getInstance()
+
+    private var _binding: FragmentQrScanBinding? = null
+    private val binding get() = _binding!!
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -55,27 +59,9 @@ class QrScanFragment : Fragment() {
         override fun barcodeResult(result: BarcodeResult) {
             val scannedId = result.text
             barcodeView.pause()
-
-            db.collection("equipment").document(scannedId).get()
-                .addOnSuccessListener { doc ->
-                    if (doc.exists()) {
-                        val isAvailable = doc.getBoolean("isAvailable") ?: true
-                        if (isAvailable) {
-                            db.collection("equipment").document(scannedId)
-                                .update("isAvailable", false)
-                                .addOnSuccessListener {
-                                    Toast.makeText(requireContext(), "Sprzęt wypożyczony ✅", Toast.LENGTH_LONG).show()
-                                }
-                        } else {
-                            Toast.makeText(requireContext(), "Sprzęt już wypożyczony ❌", Toast.LENGTH_LONG).show()
-                        }
-                    } else {
-                        Toast.makeText(requireContext(), "Nie znaleziono sprzętu o ID: $scannedId", Toast.LENGTH_LONG).show()
-                    }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Błąd połączenia z bazą danych", Toast.LENGTH_LONG).show()
-                }
+            Toast.makeText(requireContext(), "Id: $scannedId", Toast.LENGTH_SHORT).show()
+            val action = QrScanFragmentDirections.actionQrScanFragmentToQrScanRentFragment(scannedId)
+            findNavController().navigate(action)
         }
 
         override fun possibleResultPoints(resultPoints: List<com.google.zxing.ResultPoint>) {}

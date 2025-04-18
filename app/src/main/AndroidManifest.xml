@@ -17,7 +17,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".View.MainActivity"
+            android:name=".View.AdminMainView"
             android:exported="false"
             android:theme="@style/Theme.MountainEquipmentRental" />
 
@@ -30,7 +30,7 @@
             android:exported="false" />
         <activity
 
-            android:name=".View.AdminMainView"
+            android:name=".View.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

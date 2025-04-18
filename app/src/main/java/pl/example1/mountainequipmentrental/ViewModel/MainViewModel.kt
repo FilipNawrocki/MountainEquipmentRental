@@ -1,5 +1,6 @@
 package pl.example1.mountainequipmentrental.ViewModel
 
+import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Environment
@@ -31,7 +32,6 @@ import android.content.Context as context
 
 
 class MainViewModel: ViewModel() {
-    private lateinit var category: CategoriesModel
     private val database = Firebase.firestore
 
 
@@ -52,12 +52,6 @@ class MainViewModel: ViewModel() {
             }
     }
 
-    fun setCategory(category: CategoriesModel) {
-        this.category = category
-    }
-
-    fun getCategory() = category
-
     // EquipmentList
 
     private val _gearList = MutableLiveData<List<GearModel>>()
@@ -68,7 +62,6 @@ class MainViewModel: ViewModel() {
             .whereEqualTo("categoryName", category)
             .get()
             .addOnSuccessListener { gearDocs ->
-                val gearList = mutableListOf<GearModel>()
 
                 val gearModels = gearDocs.map { document ->
                     document.toObject(GearModel::class.java).apply {
@@ -124,6 +117,39 @@ class MainViewModel: ViewModel() {
         return !(end1.isBefore(start2) || start1.isAfter(end2))
     }
 
+    fun isAvailable( gearId: String, fromDate: String, toDate: String, context: context, name: String, surname: String, telephone_number: String) {
+        database.collection("Rental")
+            .whereEqualTo("gearId", gearId)
+            .get()
+            .addOnSuccessListener { gearDocs ->
+                val gearRent = gearDocs.map { document ->
+                    document.toObject(RentalModel::class.java).apply { }
+
+                }
+                for (gear in gearRent){
+                    var hasConflict = datesOverlap(fromDate, toDate, gear.dateFrom, gear.dateTo)
+                    if (hasConflict){
+                        Toast.makeText(context, "Ten sprzęt już jest wypożyczony na ten okres", Toast.LENGTH_SHORT).show()
+                    }
+                    if (!hasConflict){
+                        val rentalModel = RentalModel(
+                            gearId = gearId,
+                            dateFrom = fromDate,
+                            dateTo = toDate,
+                            Name = name,
+                            Surname = surname,
+                            telephone_number = telephone_number,
+                            returned = false,
+                            email = CurrentUser.email.toString())
+                        rentGear(rentalModel)
+                    }
+                }
+
+            }
+
+    }
+
+
     fun loadGear() {
         database.collection("Gear").get().addOnSuccessListener { result ->
             val list = result.map { document ->
@@ -134,7 +160,6 @@ class MainViewModel: ViewModel() {
     }
 
     fun saveGearToFirebase(context: context, id: String, name: String, description: String, category: String, priceText: String, isAvailable: Boolean) {
-
 
         if (id.isEmpty() || name.isEmpty() || description.isEmpty() || category.isEmpty() || priceText.isEmpty()) {
             Toast.makeText(context, "Uzupełnij wszystkie pola", Toast.LENGTH_SHORT).show()
@@ -211,7 +236,7 @@ class MainViewModel: ViewModel() {
         val filename = "QR_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())}.png"
         val fos: OutputStream?
 
-        val contentValues = android.content.ContentValues().apply {
+        val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/QR_Codes_MountainEquApp")

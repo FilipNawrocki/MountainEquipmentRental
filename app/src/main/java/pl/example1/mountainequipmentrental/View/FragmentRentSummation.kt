@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import pl.example1.mountainequipmentrental.Model.GearModel
 import pl.example1.mountainequipmentrental.Model.RentalModel
 import pl.example1.mountainequipmentrental.R
+import pl.example1.mountainequipmentrental.ViewModel.CurrentUser
 import pl.example1.mountainequipmentrental.ViewModel.MainViewModel
 import java.nio.file.Files.find
 
@@ -79,7 +80,8 @@ class FragmentRentSummation : Fragment() {
                     dateFrom = dateFrom,
                     dateTo = dateTo,
                     gearId = gear.id,
-                    returned = false
+                    returned = false,
+                    email = CurrentUser.email.toString()
                 )
                 mainViewModel.rentGear(model)
             }

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import pl.example1.mountainequipmentrental.Adapter.CategoriesAdapter
+import pl.example1.mountainequipmentrental.Model.CategoriesModel
 import pl.example1.mountainequipmentrental.R
 import pl.example1.mountainequipmentrental.ViewModel.MainViewModel
 import pl.example1.mountainequipmentrental.databinding.FragmentCategoryEquipmentBinding
@@ -37,6 +38,8 @@ class CategoryEquipmentFragment : Fragment() {
         return binding.root
     }
 
+    private var category: CategoriesModel? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -56,14 +59,12 @@ class CategoryEquipmentFragment : Fragment() {
         mainViewModel.loadCategories()
         mainViewModel.sprzetList.observe(viewLifecycleOwner) { listaSprzetu ->
             categoryAdapter = CategoriesAdapter(listaSprzetu, onItemClick = {listaSprzetu ->
-                mainViewModel.setCategory(listaSprzetu)
-
+                category = listaSprzetu
             })
             binding.recyclerView.adapter = categoryAdapter
         }
 
         binding.searchBnt.setOnClickListener {
-            val category = mainViewModel.getCategory()
             val startDate = selectedStartDate
             val endDate = selectedEndDate
 
@@ -81,7 +82,7 @@ class CategoryEquipmentFragment : Fragment() {
 
                 val action = CategoryEquipmentFragmentDirections
                     .actionCategoryEquipmentFragmentToEquipmentList(
-                        categoryName = category.Name,
+                        categoryName = category!!.Name,
                         dateFrom = startDate,
                         dateTo = endDate
                     )

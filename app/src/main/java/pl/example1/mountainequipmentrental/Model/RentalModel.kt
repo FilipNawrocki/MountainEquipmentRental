@@ -6,4 +6,5 @@ data class RentalModel(val Name: String = "",
                        val dateFrom: String = "",
                        val dateTo: String = "",
                        var gearId: String = "",
-                       val returned: Boolean = false)
+                       val returned: Boolean = false,
+                       val email: String = "")

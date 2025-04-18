@@ -1,10 +1,12 @@
 package pl.example1.mountainequipmentrental.View.AdminEdit
 
+import android.R
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,14 +33,20 @@ class AddNewGearFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mainViewModel.loadCategories()
 
+        mainViewModel.sprzetList.observe(viewLifecycleOwner) { categories ->
+            val categoryNames = categories.map { it.Name }
+            val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, categoryNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerCategory.adapter = adapter
+        }
 
         binding.buttonSave.setOnClickListener {
-
             val id = binding.editTextId.text.toString().trim()
             val name = binding.editTextName.text.toString().trim()
             val description = binding.editTextDescription.text.toString().trim()
-            val category = binding.editTextCategory.text.toString().trim()
+            val category = binding.spinnerCategory.selectedItem?.toString() ?: ""
             val priceText = binding.editTextPrice.text.toString().trim()
             val isAvailable = binding.checkBoxAvailable.isChecked
 
@@ -64,7 +72,7 @@ class AddNewGearFragment : Fragment() {
     private fun clearForm() {
         binding.editTextName.text?.clear()
         binding.editTextDescription.text?.clear()
-        binding.editTextCategory.text?.clear()
+        binding.spinnerCategory.setSelection(0)
         binding.editTextPrice.text?.clear()
         binding.checkBoxAvailable.isChecked = true
     }
